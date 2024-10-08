@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .project-name {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="password"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .message.success {
+            color: #28a745;
+        }
+        .message.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="project-name">N. Joseph Nweke Project.</div>
+        <h1>Password Strength Checker</h1>
+        <input type="password" id="password" placeholder="Enter your password">
+        <button onclick="checkPassword()">Check</button>
+        <div id="message" class="message"></div>
+    </div>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+            
+            // Define password strength criteria
+            const strongPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
+            const mediumPassword = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
+            if(strongPassword.test(password)) {
+                message.textContent = "Strong password";
+                message.className = "message success";
+            } else if(mediumPassword.test(password)) {
+                message.textContent = "Medium strength password";
+                message.className = "message success";
+            } else {
+                message.textContent = "Weak password";
+                message.className = "message error";
+            }
+        }
+    </script>
+</body>
+</html>
