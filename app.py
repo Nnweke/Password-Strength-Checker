@@ -38,7 +38,12 @@ def check_password_strength(password):
     else:
         suggestions.append("Password should contain at least one special character.")
 
-    return strength, suggestions
+    if strength <= 2:
+        return "Weak", suggestions
+    elif strength == 3 or strength == 4:
+        return "Medium", suggestions
+    else:
+        return "Strong", suggestions
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
