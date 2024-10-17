@@ -25,6 +25,7 @@
             font-size: 0.8em;
             color: #666;
             margin-bottom: 10px;
+            font-weight: bold;
         }
         h1 {
             color: #333;
@@ -57,36 +58,44 @@
         .message.error {
             color: #dc3545;
         }
+        .suggestions {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .suggestions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .suggestions li {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="project-name">N. Joseph Nweke Project.</div>
         <h1>Password Strength Checker</h1>
-        <input type="password" id="password" placeholder="Enter your password">
-        <button onclick="checkPassword()">Check</button>
-        <div id="message" class="message"></div>
+        <form method="post">
+            <label for="password">Enter Password:</label>
+            <input type="password" name="password" id="password">
+            <button type="submit">Check Strength</button>
+        </form>
+        {% if strength is not none %}
+            <div class="message {{ 'success' if strength == 'strong' else 'error' }}">
+                Password Strength: {{ strength }}
+            </div>
+            <div class="suggestions">
+                <ul>
+                    {% for suggestion in suggestions %}
+                        <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
-    <script>
-        function checkPassword() {
-            const password = document.getElementById('password').value;
-            const message = document.getElementById('message');
-            
-            // Define password strength criteria
-            const strongPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
-            const mediumPassword = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-
-            if(strongPassword.test(password)) {
-                message.textContent = "Strong password";
-                message.className = "message success";
-            } else if(mediumPassword.test(password)) {
-                message.textContent = "Medium strength password";
-                message.className = "message success";
-            } else {
-                message.textContent = "Weak password";
-                message.className = "message error";
-            }
-        }
-    </script>
 </body>
 </html>
