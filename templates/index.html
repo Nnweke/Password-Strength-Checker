@@ -52,11 +52,14 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
-        .message.success {
-            color: #28a745;
+        .message.strong {
+            color: blue;
         }
-        .message.error {
-            color: #dc3545;
+        .message.medium {
+            color: magenta;
+        }
+        .message.weak {
+            color: red;
         }
         .suggestions {
             margin-top: 20px;
@@ -85,7 +88,7 @@
             <button type="submit">Check Strength</button>
         </form>
         {% if strength is not none %}
-            <div class="message {{ 'success' if strength == 'strong' else 'error' }}">
+            <div class="message {{ strength|lower }}">
                 Password Strength: {{ strength }}
             </div>
             <div class="suggestions">
