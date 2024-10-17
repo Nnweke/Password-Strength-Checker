@@ -1,3 +1,4 @@
+import os
 import re
 from flask import Flask, render_template, request
 
@@ -17,32 +18,27 @@ def check_password_strength(password):
     if re.search(r'[0-9]', password):
         strength += 1
     else:
-        suggestions.append("Include at least one digit.")
+        suggestions.append("Password should contain at least one digit.")
 
     # Check for uppercase letter
     if re.search(r'[A-Z]', password):
         strength += 1
     else:
-        suggestions.append("Include at least one uppercase letter.")
+        suggestions.append("Password should contain at least one uppercase letter.")
 
     # Check for lowercase letter
     if re.search(r'[a-z]', password):
         strength += 1
     else:
-        suggestions.append("Include at least one lowercase letter.")
+        suggestions.append("Password should contain at least one lowercase letter.")
 
     # Check for special character
-    if re.search(r'[\W_]', password):
+    if re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
         strength += 1
     else:
-        suggestions.append("Include at least one special character (e.g., @, #, !).")
+        suggestions.append("Password should contain at least one special character.")
 
-    if strength == 5:
-        return "strong", suggestions
-    elif strength >= 3:
-        return "medium", suggestions
-    else:
-        return "weak", suggestions
+    return strength, suggestions
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -54,4 +50,5 @@ def index():
     return render_template('index.html', strength=strength, suggestions=suggestions)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
